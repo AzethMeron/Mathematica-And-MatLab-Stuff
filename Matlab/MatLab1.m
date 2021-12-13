@@ -78,7 +78,7 @@ m([1:2],[1:2]) = 0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TASK 5
-fun(10,12);
+[plus minus] = fun(10,12);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -91,7 +91,7 @@ fprintf("Sum of those two iws: %d\n", s)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Function definitions in a script must appear at the end of the file.
-function output = fun(a,b)
-    output = a+b;
-    %output = a-b
+function [first, second] = fun(a,b)
+    first = a+b;
+    second = a-b
 end
