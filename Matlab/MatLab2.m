@@ -43,7 +43,7 @@ mygcd(10,5);
 % TASK 11
 t = 0:0.1:10;
 figure(); hold on; grid on; 
-plot(t, rommel(t))
+plot(t, arrayfun(@rommel, t));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
