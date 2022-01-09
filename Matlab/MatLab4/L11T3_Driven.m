@@ -66,7 +66,7 @@ xlabel('t');
 ylabel('x(t)');
 for i = 1:length(omega_zero_multiplier)
     omega = omega_zero_multiplier(i) * omega_zero;
-    plot(it, results{i}, 'DisplayName', sprintf('omega = %d',omega));
+    plot(it, results{i}, 'DisplayName', sprintf('omega = %.2f * w0',omega_zero_multiplier(i)));
 end
 lgd = legend;
 

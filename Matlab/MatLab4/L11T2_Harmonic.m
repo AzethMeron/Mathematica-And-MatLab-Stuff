@@ -44,7 +44,7 @@ hold on; grid on;
 xlabel('t');
 ylabel('x(t)');
 for i = 1:length(dzeta)
-    plot(it, results{i}, 'DisplayName', sprintf('Dzeta = %d',dzeta(i)));
+    plot(it, results{i}, 'DisplayName', sprintf('Dzeta = %.2f',dzeta(i)));
 end
 lgd = legend;
 
