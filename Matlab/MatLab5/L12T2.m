@@ -11,8 +11,36 @@ d = 1;
 % initial conditions
 f0 = [ 1 2 deg2rad(45) deg2rad(0) ]; % [ x y fi theta ]
 
-% controls
-u = {@(t) 4, @(t) 0.1};
+%{ 
+% Controls - task A,B
+u = { 
+    @(t) 4 
+    @(t) 0.1 
+};
+%}
+
+%{
+% Controls - task C
+t0 = 0.2;
+controls = {
+  [1;0]
+  [0;1]
+  [1;0]
+  [0;-1]
+};
+u = { 
+    @(t) Generator(t, t0, controls, 1)
+    @(t) Generator(t, t0, controls, 2)
+};
+%}
+
+
+% Controls - task D
+u = { 
+    @(t) 0.5*sin(2*t + 5) 
+    @(t) 0.7*sin(1*t + 15) 
+};
+
 
 % parameters of "simulation"
 tmin = 0;
@@ -54,6 +82,13 @@ Animate( [0, 20, 0, 20],@(i,t) "Racer","x","y",0.01,it,{
     @(i,t) plot([rear_X(i); front_X(i)],[rear_Y(i); front_Y(i)],'-b'); 
     @(i,t) plot([front_wheel_LX(i); front_wheel_PX(i)],[front_wheel_LY(i); front_wheel_PY(i)],'-b'); 
 })
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [u] = Generator(t, t0, controls, index)
+    i = 1 + mod(floor(t/t0), length(controls));
+    u = controls{i}(index);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
