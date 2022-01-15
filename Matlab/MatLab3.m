@@ -4,7 +4,7 @@ clear all;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 2
 
-[sol, t, delta] = solv(3,2);
+[sol, t, delta] = solv(1,1);
 delta
 figure(); hold on; grid on; plot(t,sol(:,1));
 
@@ -39,7 +39,7 @@ end
 
 function [sol, t, delta] = solv(p,q) % TASK 1
     delta = p*p - 4*q;
-    tspan = [0 5];
+    tspan = [0 10];
     y0 = [1 0];
     [t, sol] = ode45(@(t,y) odefcn2(t,y,p,q), tspan, y0);
 end

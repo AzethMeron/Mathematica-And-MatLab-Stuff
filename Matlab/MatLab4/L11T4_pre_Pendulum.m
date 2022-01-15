@@ -51,12 +51,13 @@ for i = 1:length(it)
    xlabel("X")
    
    drawnow;
-   pause(0.01) % pauza
+   %pause(0.01) % pauza
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [dtheta] = single_pendulum(t, theta, l, m, g)
+    % theta = [ theta(t). theta'(t) ]
     dtheta = zeros(2, 1);
     dtheta(1) = theta(2);
     dtheta(2) = -g/l*theta(1);

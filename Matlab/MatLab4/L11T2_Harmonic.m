@@ -6,7 +6,7 @@ clc;
 
 % parameters of oscillator
 m = 1;
-dzeta = [0.5 1 1.5];
+dzeta = [0.5 1 1.5 2];
 k = 0.5;
 
 % initial conditions
@@ -51,6 +51,7 @@ lgd = legend;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [dt] = func(t, x, k, m, c)
+    % x = [ x(t), x'(t) ]
     dt = zeros(2,1);
     dt(1) = x(2);
     dt(2) = (-c*x(2) - k*x(1)) / m;

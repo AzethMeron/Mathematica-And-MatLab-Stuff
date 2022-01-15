@@ -2,8 +2,6 @@ close all;
 clear all;
 clc;
 
-% NIE JESTEM PEWIEN CZY TO JEST DOBRZE TBH
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % parameters of oscillator
@@ -14,7 +12,7 @@ omega_zero_multiplier = [ 0.5 1 1.5 ];
 Fo = 1;
 
 % initial conditions
-x0 = [0 1];
+x0 = [0 0];
 
 % parameters of "simulation"
 tmin = -50;
