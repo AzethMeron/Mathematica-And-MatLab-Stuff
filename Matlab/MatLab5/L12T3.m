@@ -2,22 +2,20 @@ close all;
 clear all;
 clc;
 
-% I think there's some error
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % parameters of car
-l = 2;
-d = 1.5;
-c = 1;
+l = 1;
+d = 2;
+c = 0.5;
 
 % initial conditions
-f0 = [ 1 2 deg2rad(45) deg2rad(15) deg2rad(0) ]; % [ x y fi theta ]
+f0 = [ 1 2 deg2rad(45) deg2rad(0) deg2rad(0) ]; % [ x y phi1 phi0 theta ]
 
 % Controls - task A,B
 u = { 
-    @(t) 1
-    @(t) 0 
+    @(t) 0
+    @(t) 0.1
 };
 
 %{
@@ -43,11 +41,10 @@ u = {
 };
 %}
 
-
 % parameters of "simulation"
 tmin = 0;
 ts = 0.1;
-tmax = 100;
+tmax = 30;
 options = odeset('RelTol', 1e-5);
 pause_time = 0.01;
 
@@ -63,28 +60,33 @@ isol = interp1(t, sol, it);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Angles, cause i've messed up something and it's easier to read & debug
+phi0 = isol(:,3);
+phi1 = isol(:,4);
+theta = isol(:,5);
+
 % Car body
-Nx = isol(:,1);
-Ny = isol(:,2);
-Rx = Nx + d*cos(isol(:,3));
-Ry = Ny + d*sin(isol(:,3));
-Fx = Rx + l*cos(isol(:,4));
-Fy = Ry + l*sin(isol(:,4));
+Rx = isol(:,1);
+Ry = isol(:,2);
+Nx = Rx - d*cos(phi1);
+Ny = Ry - d*sin(phi1);
+Fx = Rx + l*cos(phi0);
+Fy = Ry + l*sin(phi0);
 % Rear wheel
-rear_Px = Nx + c*sin(isol(:,3));
-rear_Py = Ny - c*cos(isol(:,3));
-rear_Dx = Nx - c*sin(isol(:,3));
-rear_Dy = Ny + c*cos(isol(:,3));
+rear_Px = Nx + c*sin(phi1);
+rear_Py = Ny - c*cos(phi1);
+rear_Dx = Nx - c*sin(phi1);
+rear_Dy = Ny + c*cos(phi1);
 % Middle wheel
-mid_Px = Rx + c*sin(isol(:,4));
-mid_Py = Ry - c*cos(isol(:,4));
-mid_Dx = Rx - c*sin(isol(:,4));
-mid_Dy = Ry + c*cos(isol(:,4));
+mid_Px = Rx + c*sin(phi0);
+mid_Py = Ry - c*cos(phi0);
+mid_Dx = Rx - c*sin(phi0);
+mid_Dy = Ry + c*cos(phi0);
 % Front wheel
-front_Px = Fx + c*sin(isol(:,5) + isol(:,4));
-front_Py = Fy - c*cos(isol(:,5) + isol(:,4));
-front_Dx = Fx - c*sin(isol(:,5) + isol(:,4));
-front_Dy = Fy + c*cos(isol(:,5) + isol(:,4));
+front_Px = Fx + c*sin(theta + phi0);
+front_Py = Fy - c*cos(theta + phi0);
+front_Dx = Fx - c*sin(theta + phi0);
+front_Dy = Fy + c*cos(theta + phi0);
 
 Animate( [0, 20, 0, 20],@(i,t) "Racer","x","y",0.01,it,{
     @(i,t) plot([rear_Px(i); rear_Dx(i)],[rear_Py(i); rear_Dy(i)],'-b'); 
@@ -104,12 +106,12 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [df] = car(t, f, l, d, u)
-    % f = [ x y alpha beta gamma ]
+    % f = [ x y beta alpha gamma ]
     df = zeros(5,1);
     df(1) = cos(f(5)) * cos(f(3)) * u{1}(t);
     df(2) = cos(f(5)) * sin(f(3)) * u{1}(t);
     df(3) = sin(f(5))*u{1}(t) / l;
-    df(4) = cos(5) * sin(f(3)-f(4))*u{1}(t) / d;
+    df(4) = cos(f(5)) * sin(f(3)-f(4))*u{1}(t) / d;
     df(5) = u{2}(t);
 end
 
