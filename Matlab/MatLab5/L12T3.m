@@ -5,18 +5,20 @@ clc;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % parameters of car
-l = 1;
-d = 2;
+l = 2;
+d = 1;
 c = 0.5;
 
 % initial conditions
 f0 = [ 1 2 deg2rad(45) deg2rad(0) deg2rad(0) ]; % [ x y phi1 phi0 theta ]
 
+
 % Controls - task A,B
 u = { 
-    @(t) 0
+    @(t) 2
     @(t) 0.1
 };
+
 
 %{
 % Controls - task C
@@ -99,7 +101,7 @@ Animate( [0, 20, 0, 20],@(i,t) "Racer","x","y",0.01,it,{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [u] = Generator(t, t0, controls, index)
-    i = 1 + mod(floor(t/t0), length(controls));
+    i = 1 + mod(floor(abs(t)/t0), length(controls));
     u = controls{i}(index);
 end
 
