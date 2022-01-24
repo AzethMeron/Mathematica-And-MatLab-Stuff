@@ -14,6 +14,7 @@ theta0 = [ deg2rad(90) deg2rad(-90) deg2rad(50) 0]; % [ theta1 theta2 dtheta1 dt
 
 % parameters of "simulation"
 tmin = 0;
+ts = 0.01
 tmax = 10;
 pause_time = 0.05;
 
@@ -21,6 +22,14 @@ pause_time = 0.05;
 
 % Simulation
 sim('Pendulum');
+
+% Interpolation
+it = [ tmin : ts : tmax ]';
+theta1 = interp1(tout, theta1, it);
+theta2 = interp1(tout, theta2, it);
+tout = it;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Coords of balls
 X1 = zeros(length(tout),1);

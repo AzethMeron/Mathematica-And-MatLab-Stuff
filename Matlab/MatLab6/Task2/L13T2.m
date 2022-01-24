@@ -17,6 +17,7 @@ u = [2 0.1];
 
 % parameters of "simulation"
 tmin = 0;
+ts = 0.05;
 tmax = 30;
 pause_time = 0.05;
 
@@ -24,6 +25,15 @@ pause_time = 0.05;
 
 % Simulation
 sim('car')
+
+% Interpolation
+it = [ tmin : ts : tmax ]';
+X = interp1(tout, X, it);
+Y = interp1(tout, Y, it);
+phi1 = interp1(tout, phi1, it);
+phi0 = interp1(tout, phi0, it);
+theta = interp1(tout, theta, it);
+tout = it;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
