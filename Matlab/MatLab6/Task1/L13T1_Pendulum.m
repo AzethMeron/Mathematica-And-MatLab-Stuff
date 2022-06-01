@@ -10,11 +10,12 @@ m = [ 1 1 ];
 g = 9.81;
 
 % initial conditions
-theta0 = [ deg2rad(90) deg2rad(-90) deg2rad(50) 0]; % [ theta1 theta2 dtheta1 dtheta2 ]
+theta0 = [ 0 0 deg2rad(400) 0]; % [ theta1 theta2 dtheta1 dtheta2 ]
+theta0_ = [ 0 0 deg2rad(400.1) 0]; % [ theta1 theta2 dtheta1 dtheta2 ]
 
 % parameters of "simulation"
 tmin = 0;
-ts = 0.01
+ts = 0.1;
 tmax = 10;
 pause_time = 0.05;
 
@@ -39,11 +40,36 @@ Y2 = Y1 - l(1)*cos(theta1);
 X3 = X2 + l(2)*sin(theta2);
 Y3 = Y2 - l(2)*cos(theta2);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Simulation
+theta0 = theta0_;
+sim('Pendulum');
+
+% Interpolation
+it = [ tmin : ts : tmax ]';
+theta1 = interp1(tout, theta1, it);
+theta2 = interp1(tout, theta2, it);
+tout = it;
+
+% Coords of balls
+X1_ = zeros(length(tout),1);
+Y1_ = zeros(length(tout),1);
+X2_ = X1_ + l(1)*sin(theta1);
+Y2_ = Y1_ - l(1)*cos(theta1);
+X3_ = X2_ + l(2)*sin(theta2);
+Y3_ = Y2_ - l(2)*cos(theta2);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Animation
 Animate([-3 3 -3 3], @(i,t) sprintf("Double pendulum, sample %d",i), "x", "y", pause_time, tout, {
     @(i,t) plot([X1(i); X2(i)],[Y1(i); Y2(i)],'-b'); 
     @(i,t) plot([X2(i); X3(i)],[Y2(i); Y3(i)],'-b'); 
     @(i,t) plot(X1(i),Y1(i),'og', X2(i),Y2(i),'og', X3(i),Y3(i),'og');
+    @(i,t) plot([X1_(i); X2_(i)],[Y1_(i); Y2_(i)],'-r'); 
+    @(i,t) plot([X2_(i); X3_(i)],[Y2_(i); Y3_(i)],'-r'); 
+    @(i,t) plot(X1_(i),Y1_(i),'og', X2_(i),Y2_(i),'og', X3_(i),Y3_(i),'og');
 });
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

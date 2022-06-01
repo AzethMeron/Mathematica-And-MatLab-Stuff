@@ -13,12 +13,12 @@ c = 0.5;
 f0 = [ 1 2 deg2rad(45) deg2rad(0) deg2rad(0) ]; % [ x y phi1 phi0 theta ]
 
 % Controls - task A,B
-u = [2 0.1];
+u = [ 2 0.1 ];
 
 % parameters of "simulation"
 tmin = 0;
-ts = 0.05;
-tmax = 30;
+ts = 0.1;
+tmax = 10;
 pause_time = 0.05;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,7 +60,7 @@ front_Py = Fy - c*cos(theta + phi0);
 front_Dx = Fx - c*sin(theta + phi0);
 front_Dy = Fy + c*cos(theta + phi0);
 
-Animate( [0, 20, 0, 20],@(i,t) "Racer","x","y",0.01,tout,{
+Animate( [-5, 15, -5, 15],@(i,t) "Racer","x","y",0.01,tout,{
     @(i,t) plot([rear_Px(i); rear_Dx(i)],[rear_Py(i); rear_Dy(i)],'-b'); 
     @(i,t) plot([mid_Px(i); mid_Dx(i)],[mid_Py(i); mid_Dy(i)],'-b'); 
     @(i,t) plot([front_Px(i); front_Dx(i)],[front_Py(i); front_Dy(i)],'-b'); 
